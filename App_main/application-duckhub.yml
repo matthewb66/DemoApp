@@ -1,0 +1,201 @@
+#
+# EXAMPLE PROJECT CONFIG FILE
+# Uncomment and update required options
+#
+#
+# DETECT COMMAND TO RUN:
+
+# ON LINUX:
+# bash <(curl -s -L https://detect.synopsys.com/detect.sh) --spring.profiles.active=<PROFILE>
+#
+#(You may need to configure a proxy to download and run the Detect script as follows)
+# export DETECT_CURL_OPTS='--proxy http://USER:PASSWORD@PROXYHOST:PROXYPORT'
+# bash <(curl -s -L ${DETECT_CURL_OPTS} https://detect.synopsys.com/detect.sh) \
+#blackduck.proxy.host: my.proxy.local \
+#blackduck.proxy.port: 8080 \
+#blackduck.proxy.username: PROXYUSERNAME \
+#blackduck.proxy.password: PROXYPASSWORD
+
+# ON WINDOWS:
+# powershell \"[Net.ServicePointManager]::SecurityProtocol = 'tls12'; irm https://detect.synopsys.com/detect.ps1?$(Get-Random) | iex; detect \"  --spring.profiles.active=<PROFILE>
+#
+# (You may need to configure a proxy to download and run the Detect script as follows)
+# Set the following environment variables before running Detect:
+#    ${Env:blackduck.proxy.host} = my.proxy.local
+#    ${Env:blackduck.proxy.port} = 8080
+#    ${Env:blackduck.proxy.password} = PROXYUSERNAME
+#    ${Env:blackduck.proxy.username} = PROXYPASSWORD
+
+# MINIMUM REQUIRED OPTIONS:
+#
+blackduck.url: https://poc39.blackduck.synopsys.com
+blackduck.api.token: YWZkOTE5NGYtNzUxYS00NDFmLWJjNzItYmYwY2VlNDIxYzUwOmE4NjNlNmEzLWRlNTItNGFiMC04YTYwLWRhNWQ2MDFlMjA0Mg==
+#detect.source.path: '/Users/myuser/working/myproject'
+
+# OVERALL OPTIONS:
+#
+#logging.level.detect: DEBUG
+#    (Increase logging level from default - consider using detect.cleanup false
+#detect.tools: DETECTOR,SIGNATURE_SCAN
+#    (Define the main scan types to be run, if not specified will be DETECTOR & SIGNATURE_SCAN,
+#     choose from ALL,NONE,DETECTOR,SIGNATURE_SCAN,BINARY_SCAN,DOCKER)
+#detect.tools.excluded: DETECTOR
+#    (Do not run the specified scan types - choose from ALL,NONE,DETECTOR,SIGNATURE_SCAN,BINARY_SCAN,DOCKER)
+#detect.wait.for.results: true
+#    (Wait for server side scan to complete before ending Detect scan - see also detect.report.timeout if you expect to wait longer than 300 seconds)
+#detect.cleanup: false
+#    (Do not delete the scan files in the $HOME/blackduck folder after scan completion)
+#detect.output.path: /users/myuser/scans
+#    (Override the default output location for scan results which is $HOME/blackduck by default
+
+# OPTIONS TO REDUCE/LIMIT SIGNATURE SCAN:
+#
+#detect.blackduck.signature.scanner.paths: 'tools,src'
+#    (Specify individual sub-folders to be scanned only)
+#detect.blackduck.signature.scanner.exclusion.patterns: ’/target\/subfolder/,/tools/’
+#    (Specify grep style folder patterns to exclude)
+#detect.blackduck.signature.scanner.exclusion.name.patterns: ’sub*’
+#    (Specify folder search string to exclude - must be combined with detect.blackduck.signature.scanner.exclusion.pattern.search.depth)
+#detect.blackduck.signature.scanner.exclusion.pattern.search.depth: 2’
+
+# OPTIONS TO IMPROVE SCAN COVERAGE:
+#
+#detect.detector.search.depth: 2
+#   (To find package manager files within sub-folders; not that this is set to 0 by default)
+#detect.blackduck.signature.scanner.individual.file.matching: SOURCE
+#   (To include singleton .js files in signature scan for OSS matches)
+#detect.binary.scan.file.path: binary_files.zip
+#   (To send the files binary_files.zip to the binary scanner - requires binary scan license)
+
+# OPTIONS TO CONFIGURE DEPENDENCY SCAN:
+#
+#detect.detector.buildless: true
+#   (Run a partial dependency scan when package managers are not installed)
+#detect.included.detector.types: NPM,NUGET
+#   (Specify package managers to be included in the dependency scan - can be BITBAKE, COCOAPODS, CONDA, CPAN, CRAN, GIT, GO_MOD, GO_DEP, GO_VNDR, GO_VENDOR, GO_GRADLE, GRADLE, HEX, MAVEN, NPM, NUGET, PACKAGIST, PEAR, PIP, RUBYGEMS, SBT, SWIFT, YARN, CLANG)
+#detect.excluded.detector.types: CPAN,CONDA
+#   (Specify package managers to be excluded from the dependency scan - can be BITBAKE, COCOAPODS, CONDA, CPAN, CRAN, GIT, GO_MOD, GO_DEP, GO_VNDR, GO_VENDOR, GO_GRADLE, GRADLE, HEX, MAVEN, NPM, NUGET, PACKAGIST, PEAR, PIP, RUBYGEMS, SBT, SWIFT, YARN, CLANG)
+
+#For mvn:
+#detect.maven.path: /usr/bin/mvn
+#   (OPTIONAL Location of mvn executable if not on PATH)
+#detect.maven.build.command: 'ARGUMENT1 ARGUMENT2'
+#   (OPTIONAL Maven Build Command: Maven command line arguments to add to the mvn/mvnw command line.)
+#detect.maven.excluded.scopes: 'SCOPE1,SCOPE2'
+#   (OPTIONAL Dependency Scope Excluded: List of Maven scopes. Output will be limited to dependencies outside these scopes (overrides include).)
+#detect.maven.included.scopes: 'SCOPE1,SCOPE2'
+#   (OPTIONAL Dependency Scope Included: List of Maven scopes. Output will be limited to dependencies within these scopes (overridden by exclude).)
+#detect.maven.excluded.modules: 'MODULE1,MODULE2'
+#   (OPTIONAL Maven Modules Excluded: List of Maven modules (sub-projects) to exclude.)
+#detect.maven.included.modules: 'MODULE1,MODULE2'
+#   (OPTIONAL Maven Modules Included: List of Maven modules (sub-projects) to include.)
+#detect.maven.include.plugins: true
+#   (OPTIONAL Maven Include Plugins: Whether or not detect will include the plugins section when parsing a pom.xml.)
+
+#For nuget:
+#detect.nuget.config.path: PATH"
+#    (OPTIONAL The path to the Nuget.Config file to supply to the nuget exe)
+#detect.nuget.packages.repo.url: URL
+#    (OPTIONAL Nuget Packages Repository URL (default: https://api.nuget.org/v3/index.json).)
+#detect.nuget.excluded.modules: PROJECT
+#    (OPTIONAL Nuget Projects Excluded: The names of the projects in a solution to exclude.)
+#detect.nuget.ignore.failure: true
+#    (OPTIONAL Ignore Nuget Failures: If true errors will be logged and then ignored.)
+#detect.nuget.included.modules: PROJECT
+#    (OPTIONAL Nuget Modules Included: The names of the projects in a solution to include (overrides exclude).)
+
+#For gradle:
+#detect.gradle.build.command: 'ARGUMENT1 ARGUMENT2'
+#    (OPTIONAL Gradle Build Command: Gradle command line arguments to add to the mvn/mvnw command line.)
+#detect.gradle.excluded.configurations: 'CONFIG1,CONFIG2'
+#    (OPTIONAL Gradle Exclude Configurations: List of Gradle configurations to exclude.)
+#detect.gradle.excluded.projects: 'PROJECT1,PROJECT2'
+#    (OPTIONAL Gradle Exclude Projects: List of Gradle sub-projects to exclude.)
+#detect.gradle.included.configurations: 'CONFIG1,CONFIG2'
+#    (OPTIONAL Gradle Include Configurations: List of Gradle configurations to include.)
+#detect.gradle.included.projects: 'PROJECT1,PROJECT2'
+#    (OPTIONAL Gradle Include Projects: List of Gradle sub-projects to include.)
+
+#For npm:
+#detect.npm.arguments: 'ARG1 ARG2'
+#    (OPTIONAL Additional arguments to add to the npm command line when running Detect against an NPM project.)
+#detect.npm.include.dev.dependencies=false
+#    (OPTIONAL Include NPM Development Dependencies: Set this value to false if you would like to exclude your dev dependencies.)
+
+#For python/pip:
+#detect.python.path: /usr/bin/python
+#    (Specify location of python executable if not on the PATH)
+#detect.python.python3: false
+#    (Specify that python3 is used for dependency analysis)
+#detect.pip.only.project.tree: true
+#    (OPTIONAL PIP Include Only Project Tree: By default, pipenv includes all dependencies found in the graph. Set to true to only
+#    include dependencies found underneath the dependency that matches the provided pip project and version name.)
+#detect.pip.project.name: NAME
+#    (OPTIONAL PIP Project Name: The name of your PIP project, to be used if your project's name cannot be correctly inferred from its setup.py file.)
+#--detect.pip.project.version.name: VERSION
+#    (OPTIONAL PIP Project Version Name: The version of your PIP project, to be used if your project's version name
+#    cannot be correctly inferred from its setup.py file.)
+#detect.pip.requirements.path: 'PATH1,PATH2'
+#    (OPTIONAL PIP Requirements Path: List of paths to requirements.txt files.)
+
+# DOCKER
+#
+#detect.docker.image: imagename:tag
+#    (OPTIONAL Scan specified docker image - requires docker to be installed)
+#detect.docker.tar: docker_image.tar
+#    (OPTIONAL Scan specified docker tar file)
+#detect.docker.path: /usr/bin/docker
+#    (OPTIONAL Path to docker executable if not on the PATH)
+
+# OPTIONS TO IMPROVE LICENSE COMPLIANCE/COPYRIGHT ANALYSIS:
+#
+detect.blackduck.signature.scanner.license.search: true
+#   (To perform client-side scanning for license files and references)
+detect.blackduck.signature.scanner.copyright.search: true
+#   (To search for copyright references in local files)
+#   (To perform client-side scanning for license files and references)
+detect.blackduck.signature.scanner.upload.source.mode: true
+#   (CAUTION - will upload local source files required for viewing in portal only)
+detect.blackduck.signature.scanner.snippet.matching: SNIPPET_MATCHING
+#   (To search for copied OSS source files and functions within source files - note that there are 4 snippet scan modes
+#      SNIPPET_MATCHING - scan only source files outside matched OSS folders and changed since last scan
+#      FULL_SNIPPET_MATCHING - scan all source files changed since last scan (including in matched OSS folders)
+#      SNIPPET_MATCHING_ONLY - scan only source files outside matched OSS folders whether changed or not since last scan
+#      FULL_SNIPPET_MATCHING_ONLY - scan all source files whether changed or not since last scan)
+
+# PROJECT OPTIONS:
+#
+detect.project.name: duckhub2
+detect.project.version.name: 1.0
+#   (OPTIONAL Specify project and version names)
+#detect.project.version.update: true
+#   (OPTIONAL Update project and version parameters below for existing projects)
+#detect.project.tier: X
+#   (OPTIONAL Define project tier numeric for new project)
+#detect.project.version.phase: ARCHIVED/DEPRECATED/DEVELOPMENT/PLANNING/PRERELEASE/RELEASED
+#   (OPTIONAL Specify project phase for new project - default DEVELOPMENT)
+#detect.project.version.distribution: EXTERNAL/SAAS/INTERNAL/OPENSOURCE
+#   (OPTIONAL Specify version distribution for new project - default EXTERNAL)
+#detect.project.user.groups: 'GROUP1,GROUP2'
+#   (OPTIONAL Define group access for project for new project)
+
+# REPORTING OPTIONS:
+#
+#detect.wait.for.results: true
+#   (OPTIONAL Wait for server-side analysis to complete - useful for script execution after scan)
+#detect.report.timeout: 600
+#   (OPTIONAL Extend the default wait period of 300 seconds for server-side scan reports and fail status 
+#detect.cleanup: false
+#   (OPTIONAL Retain scan results in $HOME/blackduck folder)
+#detect.policy.check.fail.on.severities: 'ALL,NONE,UNSPECIFIED,TRIVIAL,MINOR,MAJOR,CRITICAL,BLOCKER'
+#   (OPTIONAL Comma-separated list of policy violation severities that will cause Detect to return fail code
+#detect.notices.report: true
+#   (OPTIONAL Generate Notices Report in text form in project directory)
+#detect.notices.report.path: NOTICES_PATH
+#   (OPTIONAL The output directory for notices report. Default is the project directory)
+#detect.risk.report.pdf: true
+#   (OPTIONAL Black Duck risk report in PDF form will be created in project directory)
+#detect.risk.report.pdf.path: PDF_PATH
+#   (OPTIONAL Output directory for risk report in PDF. Default is the project directory.
+
+
